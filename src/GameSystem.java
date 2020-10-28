@@ -1,5 +1,5 @@
 
-public class System {
+public class GameSystem {
 	private Board board;
 	private Player[] players;
 	private int turnNumber = 1;
@@ -7,9 +7,9 @@ public class System {
 	private Action[] availableActions;
 	private int playerNum = 0;
 	
-	System (int numPlayers) 
+	GameSystem (int numPlayers) 
 	{
-		
+		 
 	}
 	
 	public Player getCurrentPlayer()
