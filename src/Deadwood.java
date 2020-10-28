@@ -1,4 +1,4 @@
-//Daniel Ho, Jay Hetcher
+//Daniel Ho, Jared Hechter
 
 public class Deadwood {
 	

@@ -32,12 +32,12 @@ public class GameSystem {
 		
 	}
 	
-	public int rollDie ()
+	public static int rollDie ()
 	{
 		return -1;
 	}
 	
-	public int[] roleDice ()
+	public static int[] roleDice (int numDice)
 	{
 		int[] placeholder = {};
 		return placeholder;
