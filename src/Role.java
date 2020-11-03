@@ -23,8 +23,8 @@ public class Role {
 		return true;
 	}
 	
-	public boolean takenBy ()
+	public Player takenBy ()
 	{
-		return true;
+		return takenBy;
 	}
 }
