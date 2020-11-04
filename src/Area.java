@@ -1,4 +1,3 @@
-
 public class Area {
 	private int x;
 	private int y;
@@ -7,6 +6,9 @@ public class Area {
 	
 	Area (int nx, int ny, int nh, int nw)
 	{
-		
+		x = nx;
+		y = ny;
+		h = nh;
+		w = nw;
 	}
 }
