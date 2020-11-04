@@ -5,20 +5,16 @@ public class Scene {
 	private String name;
 	private String description;
 	private String imageFile;
-	private List<Role> roles;
+	private Role[] roles;
 	private boolean flipped;
 	
-	Scene (int budget, String name, String image, String description)
+	Scene (int budget, String name, String image, String description, Role[] roles)
 	{
 		this.budget = budget;
 		this.name = name;
 		this.imageFile = image;
 		this.description = description;
-	}
-	
-	public void addRole(Role r)
-	{
-		roles.add(r);
+		this.roles = roles;
 	}
 	
 	public boolean isFlipped() 
@@ -28,10 +24,30 @@ public class Scene {
 	
 	public void flip()
 	{
-		if (flipped = true) {
+		if (flipped) {
 			flipped = false;
 		} else {
 			flipped = true;
 		}
+	}
+
+	public String getName()
+	{
+		return name;
+	}
+
+	public String getDescription()
+	{
+		return description;
+	}
+
+	public int getBudget()
+	{
+		return budget;
+	}
+
+	public Role[] getRoles()
+	{
+		return roles;
 	}
 }

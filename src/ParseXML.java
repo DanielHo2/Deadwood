@@ -83,6 +83,60 @@ public class ParseXML{
       return toReturn;
    }
 
+   public static Scene[] parseCardsFile() throws ParserConfigurationException {
+      // first open the xml file
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db = dbf.newDocumentBuilder();
+		Document doc = null;
+		
+		File f = new File("xml/cards.xml");
+
+    	try{
+        	doc = db.parse(f);
+      	} catch (Exception ex){
+        	System.out.println("XML parse failure");
+        	ex.printStackTrace();
+      }
+
+      // then parse it for all of the Scenes contained within
+      // by the rules of Deadwood, we know there are exactly
+      // 40 scene cards, so we don't need to do all the
+      // ArrayList shenanigans like above.
+      Scene[] result = new Scene[40];
+
+      Element root = doc.getDocumentElement();
+
+      NodeList cards = root.getElementsByTagName("card");
+
+      for(int i = 0; i < cards.getLength(); i++) {
+         ArrayList<Role> parts = parsePartsNode(cards.item(i));
+         // (convert parts to an array)
+         Role[] partsArray = new Role[parts.size()];
+
+         for(int j = 0; j < parts.size(); j++) {
+            partsArray[j] = parts.get(j);
+         }
+
+         String name = cards.item(i).getAttributes().getNamedItem("name").getNodeValue();
+         String img  = cards.item(i).getAttributes().getNamedItem("img").getNodeValue();
+         int budget =  Integer.parseInt( cards.item(i).getAttributes().getNamedItem("budget").getNodeValue() );
+
+         String description = "";
+
+         NodeList children = cards.item(i).getChildNodes();
+
+         for(int j = 0; j < children.getLength(); j++) {
+            if(children.item(j).getNodeName().equals("scene")) {
+               description = children.item(j).getTextContent().trim();
+            }
+         }
+
+         result[i] = new Scene(budget, name, img, description, partsArray);
+      }
+
+      return result;
+   }
+
    // parseSetNode needs to return the Set (without its
    // neighbors set yet) as well as the *names* of all of
    // its neighbors, so that parseBoardFile above can
