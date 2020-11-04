@@ -4,7 +4,7 @@ public class Board {
 	private Role[] deck;
 	//placeholders
 	Area aPlaceholder = new Area(1,1,1,1);
-	Set placeholder = new Set("", aPlaceholder , 1);
+	Set placeholder = new Set("", aPlaceholder, null, null);
 	
 	public Set getCastingOffice ()
 	{

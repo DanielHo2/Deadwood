@@ -10,21 +10,53 @@ public class Role {
 	
 	Role (int rank, String name, String line, Area a, boolean isExtra)
 	{
-		
+		this.rank = rank;
+		this.name = name;
+		this.line = line;
+		this.position = a;
+		this.extra = isExtra;
+
+		taken = false;
+		takenBy = null;
 	}
 	
 	public void requestRole ()
 	{
 		
 	}
-	
+
 	public boolean isTaken ()
 	{
-		return true;
+		return taken;
 	}
 	
+	public boolean isExtra()
+	{
+		return extra;
+	}
+
 	public Player takenBy ()
 	{
 		return takenBy;
+	}
+
+	public int getRank() 
+	{
+		return rank;
+	}
+
+	public String getName() 
+	{
+		return name;
+	}
+
+	public String getLine() 
+	{
+		return line;
+	}
+
+	public Area getArea() 
+	{
+		return position;
 	}
 }

@@ -11,4 +11,24 @@ public class Area {
 		h = nh;
 		w = nw;
 	}
+
+	public int getX()
+	{
+		return x;
+	}
+
+	public int getY()
+	{
+		return y;
+	}
+
+	public int getHeight()
+	{
+		return h;
+	}
+
+	public int getWidth()
+	{
+		return w;
+	}
 }
