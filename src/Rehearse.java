@@ -1,5 +1,5 @@
 
-public class Rehearse {
+public class Rehearse implements Action{
 	private Player actor;
 	
 	Rehearse(Player p)

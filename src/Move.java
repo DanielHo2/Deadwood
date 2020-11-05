@@ -1,5 +1,5 @@
 
-public class Move {
+public class Move implements Action{
 	private Player actor;
 	private Set to;
 	

@@ -1,5 +1,5 @@
 
-public class Act {
+public class Act implements Action{
 	private Player actor;
 	
 	Act (Player p)

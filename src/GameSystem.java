@@ -9,30 +9,67 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 import java.io.File;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 
 public class GameSystem {
 	private Board board;
 	private Player[] players;
-	private int turnNumber = 1;
-	private int dayNumber = 1;
-	private Action[] availableActions;
-	private int playerNum = 0;
+	private int turnNumber = 0;
+	public int dayNumber = 1;
+	private Action[][] actionList;
+	private boolean[][] actionListCheck;
+	private int playerNum;
 
-	GameSystem (int numPlayers) 
+	GameSystem (int playerNum, Board board, Player[] players) 
 	{
+		 //playerNum must start with 0, not 1
+		 this.playerNum = playerNum;
+		 this.board = board;
+		 this.players = players;
 		 
+	}
+	
+	public void updateDay()
+	{
+		dayNumber++;
 	}
 	
 	public Player getCurrentPlayer()
 	{
-		return players[0];
+		return players[turnNumber];
 	}
 	
-	public Action[] getAvailableActions ()
+	//creates a 2d array of actions. rows are the playerNum, columns are the action objects--> [Act, TakeRole, Rehearse, Move, Upgrade] 
+	//also creates a corresponding 2d arrays of booleans matching up, so that we can determine which ones are currently able to be used
+	public void createPlayerActions () 
 	{
-		return availableActions;
+		actionList = new Action[players.length][5];
+		actionListCheck = new boolean[players.length][5];
+		
+		// 0 = act, 1 = takerole, 2 = rehearse, 3 = move, 4 = upgrade
+		for(int i = 0; i < players.length; i++) {
+			actionList[i][0] = new Act(players[i]);	
+			actionList[i][1] = new TakeRole(players[i], players[i].currentRole);
+			actionList[i][2] = new Rehearse(players[i]);
+			actionList[i][3] = new Move(players[i], players[i].location);
+			actionList[i][4] = new Upgrade(players[i]);
+			
+			for(int j = 0; j < 5; j++) {
+				actionListCheck[i][j] = true;
+			}
+		}
+	}
+	
+	public void updateCurrentPlayer (int newPlayerNum)
+	{
+		turnNumber = newPlayerNum;
+	}
+	
+	public boolean[] getAvailableActions ()
+	{
+		return actionListCheck[turnNumber];
 	}
 	
 	public void updateAvailableActions () 
@@ -47,13 +84,17 @@ public class GameSystem {
 	
 	public static int rollDie ()
 	{
-		return -1;
+		return ThreadLocalRandom.current().nextInt(1, 6 + 1);
 	}
 	
-	public static int[] roleDice (int numDice)
+	public static int[] rollDice (int numDice)
 	{
-		int[] placeholder = {};
-		return placeholder;
+		int[] diceArr = new int[numDice];
+		for(int i = 0; i <= numDice-1; i++) {
+			diceArr[i] = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+		}
+		
+		return diceArr;
 	}
 	
 	

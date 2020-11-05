@@ -1,5 +1,5 @@
 
-public class TakeRole {
+public class TakeRole implements Action{
 	private Player actor;
 	private Role role;
 	

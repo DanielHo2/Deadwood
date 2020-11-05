@@ -1,10 +1,13 @@
-//skeleton done
+//added a role attribute so that it can be easily accessed through player
 public class Player {
-	private int rank = 1;
+	public int rank = 1;
 	private int dollars = 0;
 	private int credits = 0;
-	private Set location;
+	public Set location;
 	private int practiceTokens = 0;
+	public Role currentRole;
+	public boolean useCredits;
+	public int requestedRank;
 	
 	public void addDollars(int amount)
 	{
@@ -39,5 +42,19 @@ public class Player {
 	public void changeSet(Set newLocation)
 	{
 		location = newLocation;
+	}
+	
+	public void changeRole(Role newRole)
+	{
+		currentRole = newRole;
+	}
+	
+	public void wantCredit(boolean credits)
+	{
+		useCredits = credits;
+	}
+	
+	public void changeRequestedRank(int rank) {
+		requestedRank = rank;
 	}
 }
