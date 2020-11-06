@@ -117,7 +117,7 @@ public class GameSystem {
 				actionListCheck[turnNumber][0] = false;
 			} break;
 		case 1://1 TakeRole preconditions: player's current rank >= requestedRole.rank
-			if (currentPlayer.rank >= players[turnNumber].requestedRole.getRank()) {
+			if (currentPlayer.rank >= currentPlayer.requestedRole.getRank()) {
 				actionListCheck[turnNumber][1] = false;
 			} break;
 		case 2://2 Rehearse preconditions: practiceTokens + rank < budget
