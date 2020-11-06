@@ -20,9 +20,20 @@ public class Role {
 		takenBy = null;
 	}
 	
-	public void requestRole ()
+	public void requestRole (Player p)
 	{
-		
+		takenBy = p;
+		name = p.name;
+		changeTakenStatus();
+	}
+	
+	public void changeTakenStatus ()
+	{
+		if(taken = false) {
+			taken = true;
+		} else {
+			taken = false;
+		}
 	}
 
 	public boolean isTaken ()
