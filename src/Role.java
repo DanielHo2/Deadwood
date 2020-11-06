@@ -23,7 +23,7 @@ public class Role {
 	public void requestRole (Player p)
 	{
 		takenBy = p;
-		name = p.name;
+		name = p.getName();
 		changeTakenStatus();
 	}
 	

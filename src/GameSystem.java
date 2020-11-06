@@ -85,12 +85,12 @@ public class GameSystem {
 		Player currentPlayer = players[turnNumber];
 		
 		if (actionIndex == 1) {
-			currentPlayer.requestedRole = requestedRole;
+			currentPlayer.changeRequestedRole(requestedRole);
 		} else if (actionIndex == 3) {
-			currentPlayer.moveRequest = moveRequest;
+			currentPlayer.changeMoveRequest(moveRequest);
 		} else if (actionIndex == 4) {
-			currentPlayer.requestedRank = requestedRank;
-			currentPlayer.useCredits = useCredits;
+			currentPlayer.changeRequestedRank(requestedRank);
+			currentPlayer.wantCredit(useCredits);
 		}
 		
 		updateAvailableActions(actionIndex);
@@ -104,48 +104,10 @@ public class GameSystem {
 		}
 	}
 	
-	//checks if action preconditions are met
+	//checks if action preconditions are met and sets actionListCheck accordingly
 	public void updateAvailableActions (int actionIndex) 
 	{
-		Player currentPlayer = players[turnNumber];
-		int[] dollarsForUpgrade = {4, 10, 18, 28, 40};
-		int[] creditsForUpgrade = {5, 10, 15, 20, 25};
-		
-		switch (actionIndex) {
-		case 0://0 Act preconditions: player currently has a role
-			if (currentPlayer.currentRole != null) {
-				actionListCheck[turnNumber][0] = false;
-			} break;
-		case 1://1 TakeRole preconditions: player's current rank >= requestedRole.rank
-			if (currentPlayer.rank >= currentPlayer.requestedRole.getRank()) {
-				actionListCheck[turnNumber][1] = false;
-			} break;
-		case 2://2 Rehearse preconditions: practiceTokens + rank < budget
-			if (currentPlayer.practiceTokens + currentPlayer.rank < currentPlayer.location.scene.getBudget()) {
-				actionListCheck[turnNumber][2] = false;
-			} break;
-		case 3://3 Move preconditions: player currently does not have a role
-			if (currentPlayer.currentRole != null) {
-				actionListCheck[turnNumber][3] = false;
-			} break;
-		case 4://4 Upgrade preconditions: (player has not maxed rank && requestedRank < currentRank) && player can afford to upgrade to requestedRank
-			if (currentPlayer.rank == 6 || currentPlayer.rank > currentPlayer.requestedRank) {
-				actionListCheck[turnNumber][4] = false;
-				break;
-			} 
-			
-			//checks if player can afford upgrade
-			if(currentPlayer.useCredits == true) {
-				if(currentPlayer.credits < creditsForUpgrade[currentPlayer.requestedRank-2]) {
-					actionListCheck[turnNumber][4] = false;
-				}
-			} else {
-				if(currentPlayer.dollars < dollarsForUpgrade[currentPlayer.requestedRank-2]) {
-					actionListCheck[turnNumber][4] = false;
-				}
-			}
-			break;
-		}
+		actionListCheck[turnNumber][actionIndex] = players[turnNumber].checkActions(actionIndex);
 	}
 	
 	public void takeAction (int actionIndex)
