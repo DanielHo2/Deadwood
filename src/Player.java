@@ -1,14 +1,18 @@
 //added a role attribute so that it can be easily accessed through player
 public class Player {
+	public String name;
 	public int rank = 1;
 	private int dollars = 0;
 	private int credits = 0;
 	public Set location;
 	private int practiceTokens = 0;
 	public Role currentRole;
+	
+	//action attributes
 	public boolean useCredits;
 	public int requestedRank;
-	public String name;
+	public Role requestedRole;
+	public Set moveRequest;
 	
 	public void addDollars(int amount)
 	{
@@ -62,5 +66,13 @@ public class Player {
 	
 	public void changeRequestedRank(int rank) {
 		requestedRank = rank;
+	}
+	
+	public void changeRequestedRole(Role r) {
+		requestedRole = r;
+	}
+	
+	public void changeMoveRequest(Set s) {
+		moveRequest = s;
 	}
 }

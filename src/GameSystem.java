@@ -51,9 +51,9 @@ public class GameSystem {
 		// 0 = act, 1 = takerole, 2 = rehearse, 3 = move, 4 = upgrade
 		for(int i = 0; i < players.length; i++) {
 			actionList[i][0] = new Act(players[i]);	
-			actionList[i][1] = new TakeRole(players[i], players[i].currentRole);
+			actionList[i][1] = new TakeRole(players[i]);
 			actionList[i][2] = new Rehearse(players[i]);
-			actionList[i][3] = new Move(players[i], players[i].location);
+			actionList[i][3] = new Move(players[i]);
 			actionList[i][4] = new Upgrade(players[i]);
 			
 			for(int j = 0; j < 5; j++) {

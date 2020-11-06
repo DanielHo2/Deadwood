@@ -3,10 +3,9 @@ public class TakeRole implements Action{
 	private Player actor;
 	private Role role;
 	
-	TakeRole (Player p, Role r)
+	TakeRole (Player p)
 	{
 		actor = p;
-		role = r;
 	}
 	
 	public String actionDescription()
