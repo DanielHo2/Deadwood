@@ -12,12 +12,12 @@ public class Deadwood {
 
 			System.out.println("Everything works!");
 
-			System.out.println("Testing action updating: ");
+			System.out.println("Testing action updating: \n");
 
 			// create some players, put them in some arbitrary region on the board
 			// with some arbitaray role/rank/dollars/credits to make sure
 			// the action lists are coming out right.
-			Player[] players = { new Player("Test 1"), new Player("Test 2") };
+			Player[] players = { new Player("Player 1"), new Player("Player 2") };
 
 			players[0].changeSet(test[2]);
 			players[1].changeSet(b.getCastingOffice());
@@ -33,13 +33,18 @@ public class Deadwood {
 
 			GameSystem gameSystem = new GameSystem(b, players);
 
+			System.out.println("Actions available to " + players[0].getName());
 			gameSystem.updateAvailableActions();
 
 			for(Action a : gameSystem.getActions()) {
 				System.out.println(a.actionDescription());
 			}
 
+			System.out.println("\n");
+
 			gameSystem.nextTurn();
+
+			System.out.println("Actions available to " + players[1].getName());
 			gameSystem.updateAvailableActions();
 
 			for(Action a : gameSystem.getActions()) {
