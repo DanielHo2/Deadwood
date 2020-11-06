@@ -5,7 +5,8 @@ public class TakeRole implements Action{
 	
 	TakeRole (Player p, Role r)
 	{
-		
+		actor = p;
+		role = r;
 	}
 	
 	public String actionDescription()

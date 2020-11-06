@@ -4,7 +4,7 @@ public class Rehearse implements Action{
 	
 	Rehearse(Player p)
 	{
-		
+		actor = p;
 	}
 	
 	public String actionDescription ()

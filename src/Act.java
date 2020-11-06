@@ -4,7 +4,7 @@ public class Act implements Action{
 	
 	Act (Player p)
 	{
-		
+		actor = p;
 	}
 	
 	public String actionDescription()

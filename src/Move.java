@@ -5,7 +5,8 @@ public class Move implements Action{
 	
 	Move(Player p, Set t) 
 	{
-		
+		actor = p;
+		to = t;
 	}
 	
 	public String actionDescription ()
