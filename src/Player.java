@@ -7,12 +7,8 @@ public class Player {
 	public Set location;
 	public int practiceTokens = 0;
 	public Role currentRole;
-	
-	//action attributes
-	public boolean useCredits;
-	public int requestedRank;
-	public Role requestedRole;
-	public Set moveRequest;
+
+	public boolean hasMoved = false;
 	
 	public void addDollars(int amount)
 	{
@@ -57,22 +53,5 @@ public class Player {
 	public void changeRole(Role newRole)
 	{
 		currentRole = newRole;
-	}
-	
-	public void wantCredit(boolean credits)
-	{
-		useCredits = credits;
-	}
-	
-	public void changeRequestedRank(int rank) {
-		requestedRank = rank;
-	}
-	
-	public void changeRequestedRole(Role r) {
-		requestedRole = r;
-	}
-	
-	public void changeMoveRequest(Set s) {
-		moveRequest = s;
 	}
 }

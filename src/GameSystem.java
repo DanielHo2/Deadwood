@@ -1,34 +1,23 @@
-
-
-// A bunch of imports needed for XML parsing
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.ParserConfigurationException;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
-import org.w3c.dom.Element;
-import java.io.File;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
-
-
 
 public class GameSystem {
 	private Board board;
 	private Player[] players;
 	private int turnNumber = 0;
 	public int dayNumber = 1;
-	private Action[][] actionList;
-	private boolean[][] actionListCheck;
+	private List<Action> actionList;
 	private int playerNum;
 
 	GameSystem (int playerNum, Board board, Player[] players) 
 	{
-		 //playerNum must start with 0, not 1
-		 this.playerNum = playerNum;
-		 this.board = board;
-		 this.players = players;
-		 
+		//playerNum must start with 0, not 1
+		this.playerNum = playerNum;
+		this.board = board;
+		this.players = players;
+
+		actionList = new ArrayList<Action>();
 	}
 	
 	public void updateDay()
@@ -41,116 +30,75 @@ public class GameSystem {
 		return players[turnNumber];
 	}
 	
-	//creates a 2d array of action objects. rows are the playerNum, columns are the action objects--> [Act, TakeRole, Rehearse, Move, Upgrade] 
-	//also creates a corresponding 2d array of booleans matching up with action 2darray representing ability to take action
-	public void createPlayerActions () 
-	{
-		actionList = new Action[players.length][5];
-		actionListCheck = new boolean[players.length][5];
-		
-		// 0 = act, 1 = takerole, 2 = rehearse, 3 = move, 4 = upgrade
-		for(int i = 0; i < players.length; i++) {
-			actionList[i][0] = new Act(players[i]);	
-			actionList[i][1] = new TakeRole(players[i]);
-			actionList[i][2] = new Rehearse(players[i]);
-			actionList[i][3] = new Move(players[i]);
-			actionList[i][4] = new Upgrade(players[i]);
-			
-			for(int j = 0; j < 5; j++) {
-				actionListCheck[i][j] = true;
-			}
-		}
-	}
-	
-	public void resetActionList() 
-	{
-		for(int i = 0; i < 5; i++) {
-			actionListCheck[turnNumber][i] = true;
-		}
-	}
-	
 	public void updateCurrentPlayer (int newPlayerNum)
 	{
 		turnNumber = newPlayerNum;
 	}
 	
-	public boolean[] getAvailableActions ()
-	{
-		return actionListCheck[turnNumber];
-	}
-	
-	//set input parameters to null if they aren't being utilized by the action being requested 
-	public boolean processActionRequest (int actionIndex, Role requestedRole, boolean useCredits, int requestedRank, Set moveRequest)
-	{
-		Player currentPlayer = players[turnNumber];
-		
-		if (actionIndex == 1) {
-			currentPlayer.requestedRole = requestedRole;
-		} else if (actionIndex == 3) {
-			currentPlayer.moveRequest = moveRequest;
-		} else if (actionIndex == 4) {
-			currentPlayer.requestedRank = requestedRank;
-			currentPlayer.useCredits = useCredits;
-		}
-		
-		updateAvailableActions(actionIndex);
-		
-		//if action is able to be completed, do the action otherwise return false
-		if(getAvailableActions()[actionIndex] == true) {
-			takeAction(actionIndex);
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	//checks if action preconditions are met
 	public void updateAvailableActions (int actionIndex) 
 	{
 		Player currentPlayer = players[turnNumber];
 		int[] dollarsForUpgrade = {4, 10, 18, 28, 40};
 		int[] creditsForUpgrade = {5, 10, 15, 20, 25};
-		
-		switch (actionIndex) {
-		case 0://0 Act preconditions: player currently has a role
-			if (currentPlayer.currentRole != null) {
-				actionListCheck[turnNumber][0] = false;
-			} break;
-		case 1://1 TakeRole preconditions: player's current rank >= requestedRole.rank
-			if (currentPlayer.rank >= currentPlayer.requestedRole.getRank()) {
-				actionListCheck[turnNumber][1] = false;
-			} break;
-		case 2://2 Rehearse preconditions: practiceTokens + rank < budget
-			if (currentPlayer.practiceTokens + currentPlayer.rank < currentPlayer.location.scene.getBudget()) {
-				actionListCheck[turnNumber][2] = false;
-			} break;
-		case 3://3 Move preconditions: player currently does not have a role
-			if (currentPlayer.currentRole != null) {
-				actionListCheck[turnNumber][3] = false;
-			} break;
-		case 4://4 Upgrade preconditions: (player has not maxed rank && requestedRank < currentRank) && player can afford to upgrade to requestedRank
-			if (currentPlayer.rank == 6 || currentPlayer.rank > currentPlayer.requestedRank) {
-				actionListCheck[turnNumber][4] = false;
-				break;
-			} 
-			
-			//checks if player can afford upgrade
-			if(currentPlayer.useCredits == true) {
-				if(currentPlayer.credits < creditsForUpgrade[currentPlayer.requestedRank-2]) {
-					actionListCheck[turnNumber][4] = false;
+
+		// clear the action list to be filled in this method
+		actionList.clear();
+
+		// Act preconditions: player currently has a role
+		if(currentPlayer.currentRole != null) {
+			actionList.add( new Act(currentPlayer) );
+		}
+
+		// rehearse preconditions:
+		//   player is currently in a role
+		//   practiceTokens + rank < budget (because further rehearsals would be useless)
+		if(currentPlayer.currentRole != null && 
+		   currentPlayer.practiceTokens < currentPlayer.location.scene.getBudget()) {
+			actionList.add( new Rehearse(currentPlayer) );
+		}
+
+		// TakeRole preconditions:
+		//   player's current rank >= requested role's rank
+		//   player's current set contains the requested role
+		//   player is not currently in a role
+		for(Role r : currentPlayer.location.getRoles()) {
+			if(currentPlayer.rank >= r.getRank()) {
+				actionList.add( new TakeRole(currentPlayer, r) );
+			}
+		}
+
+		// move preconditions:
+		//   player has not yet moved on their turn
+		//   player does is not in a role
+		if(currentPlayer.currentRole == null && !currentPlayer.hasMoved) {
+			for(Set s : currentPlayer.location.getNeighbors()) {
+				actionList.add( new Move(currentPlayer, s) );
+			}
+		}
+
+		// upgrade preconditions:
+		//   player is in casting office
+		//   player rank < 6
+		//   player can afford to upgrade
+		if(currentPlayer.location.getName().equals("office")) { // this is kind of a hack - should probably make this more clean later
+			for(int upgradeRank = currentPlayer.rank; upgradeRank < 6; upgradeRank++) {
+				if(currentPlayer.credits > creditsForUpgrade[upgradeRank]) {
+					actionList.add( new Upgrade(currentPlayer, upgradeRank, true) );
 				}
-			} else {
-				if(currentPlayer.dollars < dollarsForUpgrade[currentPlayer.requestedRank-2]) {
-					actionListCheck[turnNumber][4] = false;
+
+				if(currentPlayer.dollars > dollarsForUpgrade[upgradeRank]) {
+					actionList.add( new Upgrade(currentPlayer, upgradeRank, false) );
 				}
 			}
-			break;
 		}
+
+
+		// at this point, all actions available to the given player should be in the action list.
 	}
 	
 	public void takeAction (int actionIndex)
 	{
-		actionList[playerNum][actionIndex].takeAction();	
+		actionList.get(actionIndex).takeAction();	
 	}
 	
 	public static int rollDie ()

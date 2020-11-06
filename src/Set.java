@@ -85,4 +85,27 @@ public class Set {
 	{
 		return neighbors;
 	}
+
+	public Role[] getRoles()
+	{
+		if(scene == null) return new Role[0];
+
+		int roleCount = roles.length + scene.getRoles().length;
+		Role[] result = new Role[roleCount];
+
+		int index = 0;
+
+		for(int i = 0; i < roles.length; i++) {
+			result[index] = roles[i];
+			index++;
+		}
+
+		for(int i = 0; i < scene.getRoles().length; i++) {
+			result[index] = scene.getRoles()[i];
+			index++;
+		}
+
+		return result;
+
+	}
 }
