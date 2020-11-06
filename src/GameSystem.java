@@ -72,6 +72,7 @@ public class GameSystem {
 		return actionListCheck[turnNumber];
 	}
 	
+	//run through the actionList for the current player and switch the booleans in actionListCheck if the action can be done
 	public void updateAvailableActions () 
 	{
 		
@@ -79,7 +80,7 @@ public class GameSystem {
 	
 	public void takeAction (int actionIndex)
 	{
-		
+		actionList[playerNum][actionIndex].takeAction();	
 	}
 	
 	public static int rollDie ()
