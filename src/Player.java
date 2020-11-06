@@ -2,10 +2,10 @@
 public class Player {
 	public String name;
 	public int rank = 1;
-	private int dollars = 0;
-	private int credits = 0;
+	public int dollars = 0;
+	public int credits = 0;
 	public Set location;
-	private int practiceTokens = 0;
+	public int practiceTokens = 0;
 	public Role currentRole;
 	
 	//action attributes

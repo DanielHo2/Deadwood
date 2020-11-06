@@ -8,7 +8,7 @@ public class Set {
 	private Area[] takeAreas;
 	private Role[] roles;
 	private boolean hasScene;
-	private Scene scene;
+	public Scene scene;
 	
 	Set (String n, Area a, Area[] takes, Role[] parts) 
 	{
