@@ -8,6 +8,7 @@ public class Player {
 	public Role currentRole;
 	public boolean useCredits;
 	public int requestedRank;
+	public String name;
 	
 	public void addDollars(int amount)
 	{
@@ -42,6 +43,11 @@ public class Player {
 	public void changeSet(Set newLocation)
 	{
 		location = newLocation;
+	}
+	
+	public void setName(String enteredName)
+	{
+		name = enteredName;
 	}
 	
 	public void changeRole(Role newRole)
