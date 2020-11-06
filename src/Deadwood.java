@@ -17,13 +17,16 @@ public class Deadwood {
 			// create some players, put them in some arbitrary region on the board
 			// with some arbitaray role/rank/dollars/credits to make sure
 			// the action lists are coming out right.
-			Player[] players = { new Player("Player 1"), new Player("Player 2") };
+			Player[] players = { new Player("Player 1"), new Player("Player 2"), new Player("Player 3") };
 
-			players[0].changeSet(test[2]);
+			players[0].changeSet(b.getTrailers());
 			players[1].changeSet(b.getCastingOffice());
+			players[2].changeSet(test[4]);
+			players[2].getSet().dealScene(test2[0]);
 
 			players[0].setRank(3);
 			players[1].setRank(3);
+			players[2].setRank(3);
 
 			players[0].addDollars(2000);
 			players[1].addDollars(2000);
@@ -33,22 +36,18 @@ public class Deadwood {
 
 			GameSystem gameSystem = new GameSystem(b, players);
 
-			System.out.println("Actions available to " + players[0].getName());
-			gameSystem.updateAvailableActions();
+			for(Player p : players) {
+				System.out.println("Actions available to " + p.getName());
 
-			for(Action a : gameSystem.getActions()) {
-				System.out.println(a.actionDescription());
-			}
+				gameSystem.updateAvailableActions();
 
-			System.out.println("\n");
+				for(Action a : gameSystem.getActions()) {
+					System.out.println(a.actionDescription());
+				}
 
-			gameSystem.nextTurn();
+				System.out.println("\n");
 
-			System.out.println("Actions available to " + players[1].getName());
-			gameSystem.updateAvailableActions();
-
-			for(Action a : gameSystem.getActions()) {
-				System.out.println(a.actionDescription());
+				gameSystem.nextTurn();
 			}
 
 		} catch(Exception e) {

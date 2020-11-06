@@ -53,7 +53,8 @@ public class Set {
 	
 	public void dealScene(Scene s)
 	{
-		
+		scene = s;
+		hasScene = true;
 	}
 	
 	public void wrapScene()

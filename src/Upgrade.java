@@ -18,7 +18,7 @@ public class Upgrade implements Action{
 		if(useCredits) {
 			return "Ugrade to rank " + String.valueOf(rank) + " at the cost of " + String.valueOf(cost) + " credits.";
 		} else {
-			return "Ugrade to rank " + String.valueOf(rank) + " at the cost of " + String.valueOf(cost) + " credits.";
+			return "Ugrade to rank " + String.valueOf(rank) + " at the cost of " + String.valueOf(cost) + " dollars.";
 		}
 	}
 
