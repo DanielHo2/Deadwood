@@ -41,8 +41,8 @@ public class GameSystem {
 		return players[turnNumber];
 	}
 	
-	//creates a 2d array of actions. rows are the playerNum, columns are the action objects--> [Act, TakeRole, Rehearse, Move, Upgrade] 
-	//also creates a corresponding 2d arrays of booleans matching up, so that we can determine which ones are currently able to be used
+	//creates a 2d array of action objects. rows are the playerNum, columns are the action objects--> [Act, TakeRole, Rehearse, Move, Upgrade] 
+	//also creates a corresponding 2d array of booleans matching up with action 2darray representing ability to take action
 	public void createPlayerActions () 
 	{
 		actionList = new Action[players.length][5];
@@ -62,6 +62,13 @@ public class GameSystem {
 		}
 	}
 	
+	public void resetActionList() 
+	{
+		for(int i = 0; i < 5; i++) {
+			actionListCheck[turnNumber][i] = true;
+		}
+	}
+	
 	public void updateCurrentPlayer (int newPlayerNum)
 	{
 		turnNumber = newPlayerNum;
@@ -72,6 +79,7 @@ public class GameSystem {
 		return actionListCheck[turnNumber];
 	}
 	
+	//set input parameters to null if they aren't being utilized by the action being requested 
 	public boolean processActionRequest (int actionIndex, Role requestedRole, boolean useCredits, int requestedRank, Set moveRequest)
 	{
 		Player currentPlayer = players[turnNumber];
