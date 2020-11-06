@@ -16,6 +16,6 @@ public class TakeRole implements Action{
 	
 	public void takeAction ()
 	{
-		
+		actor.currentRole = role;
 	}
 }

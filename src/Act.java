@@ -14,6 +14,6 @@ public class Act implements Action{
 	
 	public void takeAction()
 	{
-		
+		// todo
 	}
 }

@@ -8,16 +8,15 @@ public class GameSystem {
 	private int turnNumber = 0;
 	public int dayNumber = 1;
 	private List<Action> actionList;
-	private int playerNum;
 
-	GameSystem (int playerNum, Board board, Player[] players) 
+	GameSystem (Board board, Player[] players) 
 	{
-		//playerNum must start with 0, not 1
-		this.playerNum = playerNum;
 		this.board = board;
 		this.players = players;
 
-		actionList = new ArrayList<Action>();
+		for(Player p : this.players) {
+			p.setGame(this);
+		}
 	}
 	
 	public void updateDay()
@@ -28,6 +27,11 @@ public class GameSystem {
 	public Player getCurrentPlayer()
 	{
 		return players[turnNumber];
+	}
+
+	public Board getBoard()
+	{
+		return board;
 	}
 	
 	public void updateCurrentPlayer (int newPlayerNum)
@@ -67,6 +71,7 @@ public class GameSystem {
 
 	public void nextTurn() {
 		turnNumber++;
+		turnNumber %= players.length;
 	}
 	
 	
