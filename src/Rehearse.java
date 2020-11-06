@@ -9,7 +9,7 @@ public class Rehearse implements Action{
 	
 	public String actionDescription ()
 	{
-		return "";
+		return "Rehearse for your current role.";
 	}
 	
 	public void takeAction ()

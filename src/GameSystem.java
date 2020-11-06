@@ -35,65 +35,14 @@ public class GameSystem {
 		turnNumber = newPlayerNum;
 	}
 	
-	public void updateAvailableActions (int actionIndex) 
+	public void updateAvailableActions () 
 	{
-		Player currentPlayer = players[turnNumber];
-		int[] dollarsForUpgrade = {4, 10, 18, 28, 40};
-		int[] creditsForUpgrade = {5, 10, 15, 20, 25};
+		actionList = players[turnNumber].availableActions();
+	}
 
-		// clear the action list to be filled in this method
-		actionList.clear();
-
-		// Act preconditions: player currently has a role
-		if(currentPlayer.currentRole != null) {
-			actionList.add( new Act(currentPlayer) );
-		}
-
-		// rehearse preconditions:
-		//   player is currently in a role
-		//   practiceTokens + rank < budget (because further rehearsals would be useless)
-		if(currentPlayer.currentRole != null && 
-		   currentPlayer.practiceTokens < currentPlayer.location.scene.getBudget()) {
-			actionList.add( new Rehearse(currentPlayer) );
-		}
-
-		// TakeRole preconditions:
-		//   player's current rank >= requested role's rank
-		//   player's current set contains the requested role
-		//   player is not currently in a role
-		for(Role r : currentPlayer.location.getRoles()) {
-			if(currentPlayer.rank >= r.getRank()) {
-				actionList.add( new TakeRole(currentPlayer, r) );
-			}
-		}
-
-		// move preconditions:
-		//   player has not yet moved on their turn
-		//   player does is not in a role
-		if(currentPlayer.currentRole == null && !currentPlayer.hasMoved) {
-			for(Set s : currentPlayer.location.getNeighbors()) {
-				actionList.add( new Move(currentPlayer, s) );
-			}
-		}
-
-		// upgrade preconditions:
-		//   player is in casting office
-		//   player rank < 6
-		//   player can afford to upgrade
-		if(currentPlayer.location.getName().equals("office")) { // this is kind of a hack - should probably make this more clean later
-			for(int upgradeRank = currentPlayer.rank; upgradeRank < 6; upgradeRank++) {
-				if(currentPlayer.credits > creditsForUpgrade[upgradeRank]) {
-					actionList.add( new Upgrade(currentPlayer, upgradeRank, true) );
-				}
-
-				if(currentPlayer.dollars > dollarsForUpgrade[upgradeRank]) {
-					actionList.add( new Upgrade(currentPlayer, upgradeRank, false) );
-				}
-			}
-		}
-
-
-		// at this point, all actions available to the given player should be in the action list.
+	public List<Action> getActions()
+	{
+		return actionList;
 	}
 	
 	public void takeAction (int actionIndex)
@@ -114,6 +63,10 @@ public class GameSystem {
 		}
 		
 		return diceArr;
+	}
+
+	public void nextTurn() {
+		turnNumber++;
 	}
 	
 	

@@ -11,7 +11,7 @@ public class Move implements Action{
 	
 	public String actionDescription ()
 	{
-		return "";
+		return "Move to " + to.getName() + ".";
 	}
 	
 	public void takeAction ()
