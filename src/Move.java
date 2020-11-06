@@ -16,7 +16,7 @@ public class Move implements Action{
 	
 	public void takeAction ()
 	{
-		actor.location = to;
-		actor.hasMoved = true;
+		actor.changeSet(to);
+		actor.setMoved(true);
 	}
 }

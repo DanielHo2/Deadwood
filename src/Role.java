@@ -23,17 +23,8 @@ public class Role {
 	public void requestRole (Player p)
 	{
 		takenBy = p;
-		name = p.name;
-		changeTakenStatus();
-	}
-	
-	public void changeTakenStatus ()
-	{
-		if(taken = false) {
-			taken = true;
-		} else {
-			taken = false;
-		}
+		taken = true;
+		p.changeRole(this);
 	}
 
 	public boolean isTaken ()

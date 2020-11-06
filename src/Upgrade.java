@@ -29,6 +29,6 @@ public class Upgrade implements Action{
 			actor.takeDollars(cost);
 		}
 
-		actor.rank = rank;
+		actor.setRank(rank);
 	}
 }

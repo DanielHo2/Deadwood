@@ -19,17 +19,17 @@ public class Deadwood {
 			// the action lists are coming out right.
 			Player[] players = { new Player("Test 1"), new Player("Test 2") };
 
-			players[0].location = test[2];
-			players[1].location = b.getCastingOffice();
+			players[0].changeSet(test[2]);
+			players[1].changeSet(b.getCastingOffice());
 
-			players[0].rank = 3;
-			players[1].rank = 3;
+			players[0].setRank(3);
+			players[1].setRank(3);
 
-			players[0].dollars = 2000;
-			players[1].dollars = 2000;
+			players[0].addDollars(2000);
+			players[1].addDollars(2000);
 
-			players[0].credits = 2000;
-			players[1].credits = 2000;
+			players[0].addCredits(2000);
+			players[1].addCredits(2000);
 
 			GameSystem gameSystem = new GameSystem(b, players);
 

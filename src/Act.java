@@ -14,6 +14,7 @@ public class Act implements Action{
 	
 	public void takeAction()
 	{
-		// todo
+		// TODO: make this.  it's pretty complicated.
+
 	}
 }

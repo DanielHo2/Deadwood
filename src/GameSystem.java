@@ -6,7 +6,7 @@ public class GameSystem {
 	private Board board;
 	private Player[] players;
 	private int turnNumber = 0;
-	public int dayNumber = 1;
+	private int dayNumber = 1;
 	private List<Action> actionList;
 
 	GameSystem (Board board, Player[] players) 

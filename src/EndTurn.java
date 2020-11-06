@@ -14,8 +14,8 @@ public class EndTurn implements Action {
 
     public void takeAction()
     {
-        actor.hasMoved = false;
-        actor.hasActedOrRehearsed = false;
+        actor.setMoved(false);
+        actor.setActedOrRehearsed(false);
         game.nextTurn();
     }
 }
