@@ -1,10 +1,11 @@
 //Daniel Ho, Jared Hechter
+import java.util.*;
 
 public class Deadwood {
 	
 	public static void main(String args[]) 
 	{
-		try {
+		/*try {
 			Set[] test = ParseXML.parseBoardFile();
 			Scene[] test2 = ParseXML.parseCardsFile();
 
@@ -53,7 +54,16 @@ public class Deadwood {
 		} catch(Exception e) {
 			System.out.println( e.getMessage() );
 			e.printStackTrace();
-		}
+		}*/
+		SetUp test = new SetUp();
+		ArrayList<String> test2 = new ArrayList();
+		test2.add("one");
+		test2.add("two");
+		test2.add("three");
+		test.initializeBoard();
+		test.playerSetUp(3, test2);
+		test.gameSystemSetUp();
+		System.out.println("nothing broke");
 		
 	}
 
