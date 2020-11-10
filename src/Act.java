@@ -9,11 +9,12 @@ public class Act implements Action{
 	
 	public String actionDescription()
 	{
-		return "";
+		return "Act for your current role.";
 	}
 	
 	public void takeAction()
 	{
-		
+		// TODO: make this.  it's pretty complicated.
+
 	}
 }

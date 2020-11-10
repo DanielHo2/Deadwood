@@ -3,18 +3,19 @@ public class TakeRole implements Action{
 	private Player actor;
 	private Role role;
 	
-	TakeRole (Player p)
+	TakeRole (Player p, Role r)
 	{
 		actor = p;
+		role = r;
 	}
 	
 	public String actionDescription()
 	{
-		return "";
+		return "Take the role of " + role.getName() + ".";
 	}
 	
 	public void takeAction ()
 	{
-		
+		role.requestRole(actor);
 	}
 }

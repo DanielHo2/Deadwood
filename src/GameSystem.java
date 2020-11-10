@@ -1,34 +1,22 @@
-
-
-// A bunch of imports needed for XML parsing
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.ParserConfigurationException;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
-import org.w3c.dom.Element;
-import java.io.File;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
-
-
 
 public class GameSystem {
 	private Board board;
 	private Player[] players;
 	private int turnNumber = 0;
-	public int dayNumber = 1;
-	private Action[][] actionList;
-	private boolean[][] actionListCheck;
-	private int playerNum;
+	private int dayNumber = 1;
+	private List<Action> actionList;
 
-	GameSystem (int playerNum, Board board, Player[] players) 
+	GameSystem (Board board, Player[] players) 
 	{
-		 //playerNum must start with 0, not 1
-		 this.playerNum = playerNum;
-		 this.board = board;
-		 this.players = players;
-		 
+		this.board = board;
+		this.players = players;
+
+		for(Player p : this.players) {
+			p.setGame(this);
+		}
 	}
 	
 	public void updateDay()
@@ -40,33 +28,10 @@ public class GameSystem {
 	{
 		return players[turnNumber];
 	}
-	
-	//creates a 2d array of action objects. rows are the playerNum, columns are the action objects--> [Act, TakeRole, Rehearse, Move, Upgrade] 
-	//also creates a corresponding 2d array of booleans matching up with action 2darray representing ability to take action
-	public void createPlayerActions () 
+
+	public Board getBoard()
 	{
-		actionList = new Action[players.length][5];
-		actionListCheck = new boolean[players.length][5];
-		
-		// 0 = act, 1 = takerole, 2 = rehearse, 3 = move, 4 = upgrade
-		for(int i = 0; i < players.length; i++) {
-			actionList[i][0] = new Act(players[i]);	
-			actionList[i][1] = new TakeRole(players[i]);
-			actionList[i][2] = new Rehearse(players[i]);
-			actionList[i][3] = new Move(players[i]);
-			actionList[i][4] = new Upgrade(players[i]);
-			
-			for(int j = 0; j < 5; j++) {
-				actionListCheck[i][j] = true;
-			}
-		}
-	}
-	
-	public void resetActionList() 
-	{
-		for(int i = 0; i < 5; i++) {
-			actionListCheck[turnNumber][i] = true;
-		}
+		return board;
 	}
 	
 	public void updateCurrentPlayer (int newPlayerNum)
@@ -74,45 +39,20 @@ public class GameSystem {
 		turnNumber = newPlayerNum;
 	}
 	
-	public boolean[] getAvailableActions ()
+	public void updateAvailableActions () 
 	{
-		return actionListCheck[turnNumber];
+		actionList = players[turnNumber].availableActions();
 	}
-	
-	//set input parameters to null if they aren't being utilized by the action being requested 
-	public boolean processActionRequest (int actionIndex, Role requestedRole, boolean useCredits, int requestedRank, Set moveRequest)
+
+
+	public List<Action> getActions()
 	{
-		Player currentPlayer = players[turnNumber];
-		
-		if (actionIndex == 1) {
-			currentPlayer.changeRequestedRole(requestedRole);
-		} else if (actionIndex == 3) {
-			currentPlayer.changeMoveRequest(moveRequest);
-		} else if (actionIndex == 4) {
-			currentPlayer.changeRequestedRank(requestedRank);
-			currentPlayer.wantCredit(useCredits);
-		}
-		
-		updateAvailableActions(actionIndex);
-		
-		//if action is able to be completed, do the action otherwise return false
-		if(getAvailableActions()[actionIndex] == true) {
-			takeAction(actionIndex);
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	//checks if action preconditions are met and sets actionListCheck accordingly
-	public void updateAvailableActions (int actionIndex) 
-	{
-		actionListCheck[turnNumber][actionIndex] = players[turnNumber].checkActions(actionIndex);
+		return actionList;
 	}
 	
 	public void takeAction (int actionIndex)
 	{
-		actionList[playerNum][actionIndex].takeAction();	
+		actionList.get(actionIndex).takeAction();	
 	}
 	
 	public static int rollDie ()
@@ -128,6 +68,11 @@ public class GameSystem {
 		}
 		
 		return diceArr;
+	}
+
+	public void nextTurn() {
+		turnNumber++;
+		turnNumber %= players.length;
 	}
 	
 	
