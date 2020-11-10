@@ -5,6 +5,7 @@ public class Set {
 	private Area area;
 	private int takesMax;
 	private int takesLeft;
+	private int shotCounter;
 	private Area[] takeAreas;
 	private Role[] roles;
 	private boolean hasScene;
@@ -59,12 +60,13 @@ public class Set {
 	
 	public void wrapScene()
 	{
-		
+		scene = null;
+		hasScene = false;
 	}
 	
 	public void removeShot()
 	{
-		
+		shotCounter--;
 	}
 	
 	public void refillShots()

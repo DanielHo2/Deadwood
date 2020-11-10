@@ -1,3 +1,6 @@
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 //skeleton done
 public class Board {
 	private Set[] set;
@@ -25,11 +28,24 @@ public class Board {
 	
 	public void refillShotCounters () 
 	{
-		
+		for(int i = 0; i <= 9; i++) {
+			set[i].refillShots();
+		}
 	}
 	
+	//shuffle and deal scenes to sets
 	public void dealScenes ()
 	{
+		Scene[] sceneArrCopy = deck;
+		
+		List<Scene> sceneList = Arrays.asList(sceneArrCopy);
+		Collections.shuffle(sceneList);
+		sceneList.toArray(sceneArrCopy);
+		
+		for(int i = 0; i <= 9; i++) {
+			set[i].dealScene(sceneArrCopy[i]);
+		}
+		
 		
 	}
 }

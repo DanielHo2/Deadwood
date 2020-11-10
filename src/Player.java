@@ -203,45 +203,4 @@ public class Player {
 		// at this point, all actions available to the given player should be in the array list.
 		return result;
 	}
-	
-	public boolean checkActions(int actionIndex) {
-		int[] dollarsForUpgrade = {4, 10, 18, 28, 40};
-		int[] creditsForUpgrade = {5, 10, 15, 20, 25};
-		
-		switch (actionIndex) {
-		case 0://0 Act preconditions: player currently has a role
-			if (currentRole != null) {
-				return false;
-			} break;
-		case 1://1 TakeRole preconditions: player's current rank >= requestedRole.rank
-			if (rank >= requestedRole.getRank()) {
-				return false;
-			} break;
-		case 2://2 Rehearse preconditions: practiceTokens + rank < budget
-			if (practiceTokens + rank < location.scene.getBudget()) {
-				return false;
-			} break;
-		case 3://3 Move preconditions: player currently does not have a role
-			if (currentRole != null) {
-				return false;
-			} break;
-		case 4://4 Upgrade preconditions: (player has not maxed rank && requestedRank < currentRank) && player can afford to upgrade to requestedRank
-			if (rank == 6 || rank > requestedRank) {
-				return false;
-			} 
-			
-			//checks if player can afford upgrade
-			if(useCredits == true) {
-				if(credits < creditsForUpgrade[requestedRank-2]) {
-					return false;
-				}
-			} else {
-				if(dollars < dollarsForUpgrade[requestedRank-2]) {
-					return false;
-				}
-			}
-			break;
-		}
-		return true;
-	}
 }
