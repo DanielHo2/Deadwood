@@ -62,7 +62,6 @@ public class Deadwood {
 		test2.add("three");
 		test.initializeBoard();
 		test.playerSetUp(3, test2);
-		test.gameSystemSetUp();
 		System.out.println("nothing broke");
 		
 	}

@@ -7,9 +7,10 @@ public class GameSystem {
 	private Player[] players;
 	private int turnNumber = 0;
 	private int dayNumber = 1;
+	private int maxDays;
 	private List<Action> actionList;
 
-	GameSystem (Board board, Player[] players) 
+	GameSystem (Board board, Player[] players, int maxDays) 
 	{
 		this.board = board;
 		this.players = players;

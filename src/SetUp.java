@@ -28,18 +28,26 @@ public class SetUp {
 		for(int i = 0; i < numberOfPlayers; i++) {
 			playerArr[i] = new Player(playerNames.get(i));
 			playerArr[i].changeSet(boardInUse.getTrailers());
+			if (numberOfPlayers == 5) {
+				playerArr[i].addCredits(2);
+			}else if (numberOfPlayers == 6) {
+				playerArr[i].addCredits(4);
+			} else if (numberOfPlayers > 8) {
+				playerArr[i].setRank(2);
+			}
+			
 		}
 		
-		gameSystemSetUp();
+		gameSystemSetUp(numberOfPlayers);
 		
 		for(int i = 0; i < numberOfPlayers; i++) {
 			playerArr[i].setGame(gameSystem);
 		}
 	}
 	
-	public void gameSystemSetUp ()
+	public void gameSystemSetUp (int numberOfPlayers)
 	{
-		gameSystem = new GameSystem(boardInUse, playerArr);
+		gameSystem = new GameSystem(boardInUse, playerArr, numberOfPlayers);
 	}
 	
 	
