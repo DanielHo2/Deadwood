@@ -29,6 +29,12 @@ public class SetUp {
 			playerArr[i] = new Player(playerNames.get(i));
 			playerArr[i].changeSet(boardInUse.getTrailers());
 		}
+		
+		gameSystemSetUp();
+		
+		for(int i = 0; i < numberOfPlayers; i++) {
+			playerArr[i].setGame(gameSystem);
+		}
 	}
 	
 	public void gameSystemSetUp ()

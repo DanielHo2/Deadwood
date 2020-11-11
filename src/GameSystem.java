@@ -28,6 +28,11 @@ public class GameSystem {
 	{
 		return players[turnNumber];
 	}
+	
+	public Player[] getPlayerArr()
+	{
+		return players;
+	}
 
 	public Board getBoard()
 	{

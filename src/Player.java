@@ -44,7 +44,7 @@ public class Player {
 
 	public Scene getScene()
 	{
-		return location.scene;
+		return location.getScene();
 	}
 
 	public void setRank(int r)
@@ -112,6 +112,11 @@ public class Player {
 		practiceTokens += 1;
 	}
 	
+	public int getPracticeTokens()
+	{
+		return practiceTokens;
+	}
+	
 	public void removePracticeTokens()
 	{
 		practiceTokens = 0;
@@ -136,6 +141,37 @@ public class Player {
 	{
 		currentRole = newRole;
 	}
+	
+	//return list of main players on set with roles
+	public List<Player> getMainPlayersOnSet() 
+	{
+		Player[] players = game.getPlayerArr();
+		ArrayList<Player> onSetPlayers = new ArrayList<>();
+		
+		for(int i = 0; i < players.length; i++) {
+			if(players[i].getSet() == location && 
+			   players[i].getRole() != null &&
+			   players[i].getRole().isExtra()) {
+				onSetPlayers.add(players[i]);
+			}
+		}
+		return onSetPlayers;
+	}
+	
+	public List<Player> getExtraPlayersOnSet() 
+	{
+		Player[] players = game.getPlayerArr();
+		ArrayList<Player> onSetPlayers = new ArrayList<>();
+		
+		for(int i = 0; i < players.length; i++) {
+			if(players[i].getSet() == location && 
+			   players[i].getRole() != null &&
+			   players[i].getRole().isExtra() == false) {
+				onSetPlayers.add(players[i]);
+			}
+		}
+		return onSetPlayers;
+	}
 
 	public List<Action> availableActions() 
 	{
@@ -156,7 +192,7 @@ public class Player {
 		//   practiceTokens + rank < budget (because further rehearsals would be useless)
 		//   player has not yet acted or rehearsed
 		if(currentRole != null && 
-		   practiceTokens < location.scene.getBudget() &&
+		   practiceTokens < location.getScene().getBudget() &&
 		   !hasActedOrRehearsed) {
 			result.add( new Rehearse(this) );
 		}

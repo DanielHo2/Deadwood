@@ -9,7 +9,7 @@ public class Set {
 	private Area[] takeAreas;
 	private Role[] roles;
 	private boolean hasScene;
-	public Scene scene;
+	private Scene scene;
 	
 	Set (String n, Area a, Area[] takes, Role[] parts) 
 	{
@@ -64,10 +64,14 @@ public class Set {
 		hasScene = false;
 	}
 	
-	public void removeShot()
+	public boolean removeShot()
 	{
 		shotCounter--;
-		if(shotCounter == 0) wrapScene();
+		if(shotCounter == 0) { 
+			wrapScene();
+			return true;
+		}
+		return false;
 	}
 	
 	public void refillShots()
@@ -78,6 +82,11 @@ public class Set {
 	public boolean hasScene()
 	{
 		return hasScene;
+	}
+	
+	public Scene getScene()
+	{
+		return scene;
 	}
 
 	public String getName()
