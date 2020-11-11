@@ -18,6 +18,7 @@ public class SetUp {
 		}
 		
 		boardInUse.dealScenes();
+		boardInUse.refillShotCounters();
 	}
 	
 	//board must be initialized pre-playerSetUp

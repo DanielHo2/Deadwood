@@ -67,11 +67,12 @@ public class Set {
 	public void removeShot()
 	{
 		shotCounter--;
+		if(shotCounter == 0) wrapScene();
 	}
 	
 	public void refillShots()
 	{
-		
+		shotCounter = takeAreas.length;
 	}
 	
 	public boolean hasScene()
