@@ -37,7 +37,7 @@ public class Act implements Action{
 			}
 			// on main - give nothing
 		}
-
+		actor.setActedOrRehearsed(true);
 	}
 
 	

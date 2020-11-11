@@ -15,5 +15,6 @@ public class Rehearse implements Action{
 	public void takeAction ()
 	{
 		actor.givePracticeTokens();
+		actor.setActedOrRehearsed(true);
 	}
 }
