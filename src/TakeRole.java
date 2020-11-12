@@ -21,6 +21,7 @@ public class TakeRole implements Action{
 	public String takeAction ()
 	{
 		role.requestRole(actor);
+		actor.getGame().nextTurn();
 		return ("You have taken: " + role.getName() + " as a role\n");
 	}
 }
