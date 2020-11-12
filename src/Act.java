@@ -33,6 +33,8 @@ public class Act implements Action{
 			// on main - give nothing
 		}
 
+		actor.setMoved(false);
 		actor.getGame().nextTurn();
+		actor.getGame().updateDay(); // if enough scenes are done, go to next day
 	}
 }

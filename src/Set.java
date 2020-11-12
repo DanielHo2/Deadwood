@@ -91,6 +91,7 @@ public class Set {
 	{
 		for(Role r : getRoles()) {
 			if(r.isTaken()) {
+				r.takenBy().removePracticeTokens();
 				r.removePlayer();
 			}
 		}

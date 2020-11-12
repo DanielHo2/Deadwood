@@ -187,7 +187,7 @@ public class Player {
 		//   player has not yet acted or rehearsed 
 		//      (acting or rehearsing automatically ends the turn, so we don't need to check for this)
 		if(currentRole != null && 
-		   practiceTokens < location.getScene().getBudget()) {
+		   practiceTokens < location.getScene().getBudget()-1) {
 			result.add( new Rehearse(this) );
 		}
 
