@@ -11,7 +11,11 @@ public class TakeRole implements Action{
 	
 	public String actionDescription()
 	{
-		return "Take the role of " + role.getName() + ".";
+		if(role.isExtra()) {
+			return "Take the extra role of " + role.getName() + ".";
+		} else {
+			return "Take the lead role of " + role.getName() + ".";
+		}
 	}
 	
 	public void takeAction ()

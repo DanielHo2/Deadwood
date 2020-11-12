@@ -1,12 +1,14 @@
-//skeleton done
+import java.util.List;
+import java.util.ArrayList;
+
+
 public class Set {
 	private String name;
 	private Set[] neighbors;
 	private Area area;
-	private int takesMax;
-	private int takesLeft;
-	private int shotCounter;
 	private Area[] takeAreas;
+	private int shotsMax;
+	private int shotCounters;
 	private Role[] roles;
 	private boolean hasScene;
 	private Scene scene;
@@ -26,8 +28,8 @@ public class Set {
 		neighbors = new Set[0];
 
 		if(takes != null) {
-			takesMax = takes.length;
-			takesLeft = takesMax;
+			shotsMax = takes.length;
+			shotCounters = shotsMax;
 			takeAreas = takes;
 		}
 
@@ -60,14 +62,44 @@ public class Set {
 	
 	public void wrapScene()
 	{
+		if(scene.hasPlayer()) payOut();
+
+		removePlayers();
+
 		scene = null;
 		hasScene = false;
 	}
 	
+	private void payOut() {
+		List<Player> mainActors = getMainActors();
+		List<Player> extraActors = getExtraActors();
+		int[] diceArr = GameSystem.rollDice(scene.getBudget());
+
+		//payout for main actors
+		for(int i = 0; i < diceArr.length; i++) {
+			int modulusCount = i % mainActors.size();
+			mainActors.get(modulusCount).addDollars(diceArr[i]);;
+		}
+			
+		//payout for actors
+		for(int i = 0; i < extraActors.size(); i++) {
+			extraActors.get(i).addDollars(extraActors.get(i).getRole().getRank());
+		}
+	}
+
+	private void removePlayers()
+	{
+		for(Role r : getRoles()) {
+			if(r.isTaken()) {
+				r.removePlayer();
+			}
+		}
+	}
+
 	public boolean removeShot()
 	{
-		shotCounter--;
-		if(shotCounter == 0) { 
+		shotCounters--;
+		if(shotCounters == 0) { 
 			wrapScene();
 			return true;
 		}
@@ -76,7 +108,12 @@ public class Set {
 	
 	public void refillShots()
 	{
-		shotCounter = takeAreas.length;
+		shotCounters = shotsMax;
+	}
+
+	public int getShotsLeft()
+	{
+		return shotCounters;
 	}
 	
 	public boolean hasScene()
@@ -120,5 +157,60 @@ public class Set {
 
 		return result;
 
+	}
+
+	public Role[] getMainRoles() 
+	{
+		return scene.getRoles();
+	}
+
+	public Role[] getExtraRoles()
+	{
+		return roles;
+	}
+
+	// returns players sorted in order from lowest to highest rank of their role
+	public List<Player> getMainActors()
+	{
+		// there are, at most, 6 roles per card, at least in theory,
+		// because the max rank is 6, and the roles must all be different
+		// ranks for them to be able to be unambigiously sorted.
+		// in practice, there are about 3 roles per card, but by using
+		// 6 we can sort the players by role rank very easily
+		Player[] players = new Player[6];
+
+		for(Role r : scene.getRoles()) {
+			if(r.isTaken()) {
+				players[r.getRank()-1] = r.takenBy();
+			}
+		}
+
+		// at this point, we've filled in all of the main roles, slotting them
+		// into the index representing their rank - this means that the players
+		// array is sorted from lowest to highest role rank, with null values
+		// potentially dividing any given entries.  by going through and removing
+		// these null values, we'll have the result we want
+		List<Player> result = new ArrayList<>();
+
+		for(int i = 0; i < players.length; i++) {
+			if(players[i] != null) {
+				result.add(players[i]);
+			}
+		}
+
+		return result;
+	}
+
+	public List<Player> getExtraActors()
+	{
+		List<Player> result = new ArrayList<>();
+
+		for(Role r : roles) {
+			if(r.isTaken()) {
+				result.add(r.takenBy());
+			}
+		}
+
+		return result;
 	}
 }

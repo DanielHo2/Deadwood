@@ -27,6 +27,13 @@ public class Role {
 		p.changeRole(this);
 	}
 
+	public void removePlayer()
+	{
+		takenBy.leaveRole();
+		takenBy = null;
+		taken = false;
+	}
+
 	public boolean isTaken ()
 	{
 		return taken;

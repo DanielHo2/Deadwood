@@ -4,8 +4,10 @@ public class SetUp {
 	private Board boardInUse;
 	private Player[] playerArr;
 	private GameSystem gameSystem;
+	private DeadwoodView view;
+	private Deadwood controller;
 	
-	public void initializeBoard() 
+	public void initialize() 
 	{
 		try {
 			Set[] setArr = ParseXML.parseBoardFile();			
@@ -19,36 +21,39 @@ public class SetUp {
 		
 		boardInUse.dealScenes();
 		boardInUse.refillShotCounters();
+
+		controller = new Deadwood();
+
+		playerSetUp(controller.getPlayers());
 	}
 	
 	//board must be initialized pre-playerSetUp
-	public void playerSetUp (int numberOfPlayers, List<String> playerNames) 
+	private void playerSetUp (List<String> playerNames) 
 	{
-		playerArr = new Player[numberOfPlayers];
-		for(int i = 0; i < numberOfPlayers; i++) {
+		playerArr = new Player[playerNames.size()];
+
+		for(int i = 0; i < playerNames.size(); i++) {
 			playerArr[i] = new Player(playerNames.get(i));
 			playerArr[i].changeSet(boardInUse.getTrailers());
-			if (numberOfPlayers == 5) {
+
+			if (playerNames.size() == 5) {
 				playerArr[i].addCredits(2);
-			}else if (numberOfPlayers == 6) {
+			}else if (playerNames.size() == 6) {
 				playerArr[i].addCredits(4);
-			} else if (numberOfPlayers > 8) {
+			} else if (playerNames.size() >= 7) {
 				playerArr[i].setRank(2);
 			}
 			
 		}
 		
-		gameSystemSetUp(numberOfPlayers);
-		
-		for(int i = 0; i < numberOfPlayers; i++) {
-			playerArr[i].setGame(gameSystem);
-		}
+		gameSystem = new GameSystem(boardInUse, playerArr);
+		view = new DeadwoodView(gameSystem);
+
+		controller.setView(view);
 	}
-	
-	public void gameSystemSetUp (int numberOfPlayers)
+
+	public Deadwood getController()
 	{
-		gameSystem = new GameSystem(boardInUse, playerArr, numberOfPlayers);
+		return controller;
 	}
-	
-	
 }

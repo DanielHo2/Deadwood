@@ -1,10 +1,8 @@
 public class EndTurn implements Action {
     Player actor;
-    GameSystem game;
 
-    public EndTurn(Player p, GameSystem game) {
+    public EndTurn(Player p) {
         actor = p;
-        this.game = game;
     }
 
     public String actionDescription()
@@ -15,7 +13,6 @@ public class EndTurn implements Action {
     public void takeAction()
     {
         actor.setMoved(false);
-        actor.setActedOrRehearsed(false);
-        game.nextTurn();
+        actor.getGame().nextTurn();
     }
 }

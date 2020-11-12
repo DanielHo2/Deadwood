@@ -1,5 +1,3 @@
-import java.util.*;
-
 public class Scene {
 	private int budget;
 	private String name;
@@ -20,6 +18,15 @@ public class Scene {
 	public boolean isFlipped() 
 	{
 		return flipped;
+	}
+
+	public boolean hasPlayer()
+	{
+		for(Role r : roles) {
+			if(r.isTaken()) return true;
+		}
+
+		return false;
 	}
 	
 	public void flip()

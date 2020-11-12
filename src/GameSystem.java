@@ -1,5 +1,4 @@
 import java.util.List;
-import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class GameSystem {
@@ -10,7 +9,7 @@ public class GameSystem {
 	private int maxDays;
 	private List<Action> actionList;
 
-	GameSystem (Board board, Player[] players, int maxDays) 
+	GameSystem (Board board, Player[] players) 
 	{
 		this.board = board;
 		this.players = players;
@@ -18,11 +17,37 @@ public class GameSystem {
 		for(Player p : this.players) {
 			p.setGame(this);
 		}
+
+		if(players.length < 4) {
+			maxDays = 3;
+		} else {
+			maxDays = 4;
+		}
 	}
 	
 	public void updateDay()
 	{
-		dayNumber++;
+		if(board.numberOfScenes() == 1) {
+			// move to next day
+			dayNumber++;
+
+			// end if the final day has been finished
+			if(dayNumber > maxDays) {
+				return;
+			}
+
+			// otherwise, prepare for the next day
+			for(Player p : players) {
+				// each player leaves their role if in one, and returns to the trailers
+				p.leaveRole();
+				p.changeSet(board.getTrailers());
+				// replace all shot counters
+				board.refillShotCounters();
+				// deal 10 more scenes to the board
+				board.dealScenes();
+			}
+		}
+		// don't do anything if there are at least 2 cards remaining
 	}
 	
 	public Player getCurrentPlayer()
@@ -72,14 +97,36 @@ public class GameSystem {
 		for(int i = 0; i <= numDice-1; i++) {
 			diceArr[i] = ThreadLocalRandom.current().nextInt(1, 6 + 1);
 		}
+
+		// quick bubble sort to get the dice into sorted order - we're
+		// working with 6 elements at most, so O(n^2) should be negligible.
+
+		for(int i = 0; i < diceArr.length; i++) {
+			for(int j = 0; j < diceArr.length - i; j++) {
+				if( diceArr[i] < diceArr[j] ) {
+					int temp = diceArr[i];
+					diceArr[i] = diceArr[j];
+					diceArr[j] = temp;
+				}
+			}
+		}
 		
 		return diceArr;
 	}
 
-	public void nextTurn() {
+	public void nextTurn() 
+	{
 		turnNumber++;
 		turnNumber %= players.length;
 	}
+
+	public boolean gameFinished()
+	{
+		return dayNumber > maxDays;
+	}
 	
-	
+	public int getTurnNumber()
+	{
+		return turnNumber;
+	}
 }

@@ -5,15 +5,20 @@ import java.util.List;
 public class Board {
 	private Set[] set;
 	private Scene[] deck;
-	//placeholders
-	Area aPlaceholder = new Area(1,1,1,1);
-	Set placeholder = new Set("", aPlaceholder, null, null);
+	private int deckIndex = 0;
 	
 	public Board(Set[] set, Scene[] deck)
 	{
 		this.set = set;
-		this.deck = deck;
-		// still need to work on getting players initialized and whatnot
+
+		// shuffle the deck
+		List<Scene> deckList = Arrays.asList(deck);
+		Collections.shuffle(deckList);
+		this.deck = new Scene[deckList.size()];
+
+		for(int i = 0; i < deck.length; i++) {
+			this.deck[i] = deckList.get(i);
+		}
 	}
 
 	public Set getCastingOffice ()
@@ -35,17 +40,26 @@ public class Board {
 	
 	//shuffle and deal scenes to sets
 	public void dealScenes ()
-	{
-		Scene[] sceneArrCopy = deck;
-		
-		List<Scene> sceneList = Arrays.asList(sceneArrCopy);
-		Collections.shuffle(sceneList);
-		sceneList.toArray(sceneArrCopy);
-		
+	{	
 		for(int i = 0; i <= 9; i++) {
-			set[i].dealScene(sceneArrCopy[i]);
+			// deal the next card in the deck
+			set[i].dealScene(deck[deckIndex++]);
 		}
-		
-		
+	}
+
+	public int numberOfScenes()
+	{
+		int result = 0;
+
+		for(Set s : set) {
+			if(s.hasScene()) result++;
+		}
+
+		return result;
+	}
+
+	public Set[] getSets()
+	{
+		return set;
 	}
 }

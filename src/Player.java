@@ -14,8 +14,6 @@ public class Player {
 	private GameSystem game;
 
 	private boolean hasMoved = false;
-	private boolean hasActedOrRehearsed = false;
-
 	
 	public Player(String name) 
 	{
@@ -77,16 +75,6 @@ public class Player {
 		hasMoved = b;
 	}
 
-	public boolean getActedOrRehearsed()
-	{
-		return hasActedOrRehearsed;
-	}
-
-	public void setActedOrRehearsed(boolean b)
-	{
-		hasActedOrRehearsed = b;
-	}
-
 	public void addDollars(int amount)
 	{
 		dollars += amount;
@@ -141,6 +129,11 @@ public class Player {
 	{
 		currentRole = newRole;
 	}
+
+	public void leaveRole()
+	{
+		currentRole = null;
+	}
 	
 	//return list of main players on set with roles
 	public List<Player> getMainPlayersOnSet() 
@@ -183,17 +176,18 @@ public class Player {
 		// Act preconditions: 
 		//   player currently has a role
 		//   player has not yet acted or rehearsed
-		if(currentRole != null && !hasActedOrRehearsed) {
+		//      (acting or rehearsing automatically ends the turn, so we don't need to check for this)
+		if(hasRole()) {
 			result.add( new Act(this) );
 		}
 
 		// rehearse preconditions:
 		//   player is currently in a role
 		//   practiceTokens + rank < budget (because further rehearsals would be useless)
-		//   player has not yet acted or rehearsed
+		//   player has not yet acted or rehearsed 
+		//      (acting or rehearsing automatically ends the turn, so we don't need to check for this)
 		if(currentRole != null && 
-		   practiceTokens < location.getScene().getBudget() &&
-		   !hasActedOrRehearsed) {
+		   practiceTokens < location.getScene().getBudget()) {
 			result.add( new Rehearse(this) );
 		}
 
@@ -201,15 +195,16 @@ public class Player {
 		//   player's current rank >= requested role's rank
 		//   player's current set contains the requested role
 		//   player is not currently in a role
+		//   role is not currently taken
 		for(Role r : location.getRoles()) {
-			if(rank >= r.getRank()) {
+			if(rank >= r.getRank() && !r.isTaken() && !hasRole()) {
 				result.add( new TakeRole(this, r) );
 			}
 		}
 
 		// move preconditions:
 		//   player has not yet moved on their turn
-		//   player does is not in a role
+		//   player is not in a role
 		if(currentRole == null && !hasMoved) {
 			for(Set s : location.getNeighbors()) {
 				result.add( new Move(this, s) );
@@ -232,11 +227,25 @@ public class Player {
 			}
 		}
 
-		// EndTurn preconditions: none!
-		result.add( new EndTurn(this, game) );
+		// EndTurn preconditions:
+		//   cannot end turn if both in a role, and you've not acted or rehearsed yet.
+		//      (acting or rehearsing automatically ends the turn, so we don't need to check for this)
+		if( !(hasRole()) ) {
+			result.add( new EndTurn(this) );
+		}
 
 
 		// at this point, all actions available to the given player should be in the array list.
 		return result;
+	}
+
+	public int getScore()
+	{
+		return dollars + credits + (rank * 5);
+	}
+
+	public GameSystem getGame()
+	{
+		return game;
 	}
 }
