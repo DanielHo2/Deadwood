@@ -301,7 +301,11 @@ public class DeadwoodView {
                 System.out.println("Invalid input");
                 return;
             } else {
-                System.out.println(game.takeAction(value-1));
+                try {
+                	System.out.println(game.takeAction(value-1));
+                } catch (Exception e) {
+                	System.out.println("invalid return");
+                }
             }
 
         } catch(NumberFormatException e) {
