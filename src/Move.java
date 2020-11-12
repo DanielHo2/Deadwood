@@ -14,9 +14,11 @@ public class Move implements Action{
 		return "Move to " + to.getName() + ".";
 	}
 	
-	public void takeAction ()
+	public String takeAction ()
 	{
 		actor.changeSet(to);
 		actor.setMoved(true);
+		
+		return ("Moved to: " + to.getName() +"\n");
 	}
 }

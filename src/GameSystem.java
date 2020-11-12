@@ -81,9 +81,9 @@ public class GameSystem {
 		return actionList;
 	}
 	
-	public void takeAction (int actionIndex)
+	public String takeAction (int actionIndex)
 	{
-		actionList.get(actionIndex).takeAction();	
+		return actionList.get(actionIndex).takeAction();	
 	}
 	
 	public static int rollDie ()

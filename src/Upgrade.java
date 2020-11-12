@@ -22,7 +22,7 @@ public class Upgrade implements Action{
 		}
 	}
 
-	public void takeAction() {
+	public String takeAction() {
 		if(useCredits) {
 			actor.takeCredits(cost);
 		} else {
@@ -30,5 +30,9 @@ public class Upgrade implements Action{
 		}
 
 		actor.setRank(rank);
+		if(useCredits == true) {
+			return ("You upgraded to rank " + rank + " for " + cost + " credits\n");
+		}
+		return ("You upgraded to rank " + rank + " for " + cost + "dollars\n");
 	}
 }

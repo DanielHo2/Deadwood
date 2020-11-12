@@ -18,8 +18,9 @@ public class TakeRole implements Action{
 		}
 	}
 	
-	public void takeAction ()
+	public String takeAction ()
 	{
 		role.requestRole(actor);
+		return ("You have taken: " + role.getName() + " as a role\n");
 	}
 }

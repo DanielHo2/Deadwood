@@ -12,10 +12,11 @@ public class Rehearse implements Action{
 		return "Rehearse for your current role.";
 	}
 	
-	public void takeAction ()
+	public String takeAction ()
 	{
 		actor.givePracticeTokens();
 
 		actor.getGame().nextTurn();
+		return ("You have rehearsed and now have: " + actor.getPracticeTokens() + " Practice Tokens\n");
 	}
 }

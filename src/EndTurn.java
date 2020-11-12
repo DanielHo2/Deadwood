@@ -10,9 +10,10 @@ public class EndTurn implements Action {
         return "End your turn.";
     }
 
-    public void takeAction()
+    public String takeAction()
     {
         actor.setMoved(false);
         actor.getGame().nextTurn();
+        return ("Turn Ended\n");
     }
 }
