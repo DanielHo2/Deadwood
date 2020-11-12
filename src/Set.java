@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class Set {
@@ -60,31 +61,67 @@ public class Set {
 		hasScene = true;
 	}
 	
-	public void wrapScene()
+	public String wrapScene()
 	{
-		if(scene.hasPlayer()) payOut();
+		String result = "The scene is done filming!\n\n";;
+		if(scene.hasPlayer())
+			result += payOut();
 
 		removePlayers();
 
 		scene = null;
 		hasScene = false;
+
+		return result;
 	}
 	
-	private void payOut() {
-		List<Player> mainActors = getMainActors();
-		List<Player> extraActors = getExtraActors();
+	private String payOut() {
+		HashMap<Player, Integer> payments = new HashMap<>();
 		int[] diceArr = GameSystem.rollDice(scene.getBudget());
 
 		//payout for main actors
 		for(int i = 0; i < diceArr.length; i++) {
-			int modulusCount = i % mainActors.size();
-			mainActors.get(modulusCount).addDollars(diceArr[i]);;
+			int modulusCount = i % getMainRoles().length;
+
+			Role current = getMainRoles()[modulusCount];
+
+			if(current.isTaken()) {
+				Player player = current.takenBy();
+				
+				player.addDollars(diceArr[i]);
+
+				if(!payments.containsKey(player)) {
+					payments.put(player, diceArr[i]);
+				} else {
+					payments.put( player, payments.get(player) + diceArr[i] );
+				}
+			}
 		}
 			
-		//payout for actors
-		for(int i = 0; i < extraActors.size(); i++) {
-			extraActors.get(i).addDollars(extraActors.get(i).getRole().getRank());
+		//payout for extra actors
+		for(int i = 0; i < getExtraRoles().length; i++) {
+			Role current = getExtraRoles()[i];
+
+			if(current.isTaken()) {
+				Player player = current.takenBy();
+
+				player.addDollars( current.getRank() );
+
+				if(!payments.containsKey(player)) {
+					payments.put(player, current.getRank());
+				} else {
+					payments.put(player, payments.get(player) + current.getRank());
+				}
+			}
 		}
+
+		String result = "";
+
+		for(Player p : payments.keySet()) {
+			result += p.getName() + " received " + payments.get(p) + " dollars.\n";
+		}
+
+		return result;
 	}
 
 	private void removePlayers()
@@ -97,14 +134,18 @@ public class Set {
 		}
 	}
 
-	public boolean removeShot()
+	/**
+	 * Removes 1 shot counter from the current set.  If the number of shot counters
+	 * hits zero, the scene is wrapped.
+	 * @return A blank string if the scene does not wrap.  If it does wrap, a summary of the payout.
+	 */
+	public String removeShot()
 	{
 		shotCounters--;
 		if(shotCounters == 0) { 
-			wrapScene();
-			return true;
+			return wrapScene();
 		}
-		return false;
+		return "";
 	}
 	
 	public void refillShots()

@@ -31,6 +31,8 @@ public class DeadwoodView {
 
         // print out board details
         int setNumber = 1;
+        System.out.println("It is currently day #" + game.getDay() + "\n");
+
         for(Set s : b.getSets()) {
             if(s.hasScene()) {
                 System.out.printf("Set #%d: %s is now filming %s with a budget of %d\n", 
@@ -91,6 +93,7 @@ public class DeadwoodView {
 
             if(score > maxScore) {
                 winningPlayer = p;
+                maxScore = score;
             }
 
             System.out.printf("%s has a score of %d\n", p.getName(), score);
@@ -126,8 +129,8 @@ public class DeadwoodView {
 
             System.out.println();
 
-            System.out.printf("Credits: %d | Dollars: %d | Rank: %d\n\n\n\n", 
-                               p.getCredits(), p.getDollars(), p.getRank());
+            System.out.printf("Credits: %d | Dollars: %d | Rank: %d | Practice Tokens: %d\n\n\n\n", 
+                               p.getCredits(), p.getDollars(), p.getRank(), p.getPracticeTokens());
         }
 
     }
@@ -302,9 +305,9 @@ public class DeadwoodView {
                 return;
             } else {
                 try {
-                	System.out.println(game.takeAction(value-1));
-                } catch (Exception e) {
-                	System.out.println("invalid return");
+                    System.out.println(game.takeAction(value-1));
+                } catch(Exception e) {
+                    System.out.println("Invalid output");
                 }
             }
 

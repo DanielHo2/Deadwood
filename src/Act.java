@@ -15,6 +15,9 @@ public class Act implements Action{
 	{
 		int adjustedDieRoll = GameSystem.rollDie() + actor.getPracticeTokens();
 		int returnMessage;
+		// will be empty if no pay out occurs.
+		// otherwise contains information on how much each player got payed.
+		String payOutMessage = ""; 
 		
 		//successful roll
 		if(adjustedDieRoll >= actor.getScene().getBudget()) {
@@ -28,7 +31,7 @@ public class Act implements Action{
 			}
 			
 			//remove a shot - this automatically pays out and wraps the scene if shots reach 0
-			actor.getSet().removeShot();
+			payOutMessage = actor.getSet().removeShot();
 		} else { //failed roll
 			if(actor.getRole().isExtra() == true) { //on extra - give 1 dollar
 				actor.addDollars(1);
@@ -40,13 +43,22 @@ public class Act implements Action{
 
 		actor.setMoved(false);
 		actor.getGame().nextTurn();
-		actor.getGame().updateDay(); // if enough scenes are done, go to next day
-		
+		boolean nextDay = actor.getGame().updateDay(); // if enough scenes are done, go to next day
+
+		if(nextDay) {
+			if(!actor.getGame().gameFinished()) {
+				payOutMessage += "\n\nThe current day has ended.\n";
+				payOutMessage += "All players have returned to the trailers, and new scenes have been dealt.\n\n";
+			} else {
+				payOutMessage += "\n\n The current day has ended.\n\n";
+			}
+		}
+
 		switch (returnMessage) {
 			case 0:
-				return "Successful roll: +2 credits\n";
+				return "Successful roll: +2 credits\n" + payOutMessage;
 			case 1:
-				return "Successful roll: +1 credit +1 dollar\n";
+				return "Successful roll: +1 credit +1 dollar\n" + payOutMessage;
 			case 2:
 				return "Failed roll: +1 credit\n";
 			case 3:

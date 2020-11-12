@@ -25,7 +25,13 @@ public class GameSystem {
 		}
 	}
 	
-	public void updateDay()
+	/**
+	 * Checks if the condition to move to the next day (only 1 scene left on the board) is met.
+	 * If so, moves to the next day, returns all players to the trailers, and deals more scenes,
+	 * or returns early if the final day has been completed. 
+	 * @return true if the game moved to the next day, false if it didn't.
+	 */
+	public boolean updateDay()
 	{
 		if(board.numberOfScenes() == 1) {
 			// move to next day
@@ -33,7 +39,7 @@ public class GameSystem {
 
 			// end if the final day has been finished
 			if(dayNumber > maxDays) {
-				return;
+				return true;
 			}
 
 			// otherwise, prepare for the next day
@@ -46,8 +52,12 @@ public class GameSystem {
 				// deal 10 more scenes to the board
 				board.dealScenes();
 			}
+
+			return true;
 		}
+
 		// don't do anything if there are at least 2 cards remaining
+		return false;
 	}
 	
 	public Player getCurrentPlayer()
@@ -128,5 +138,10 @@ public class GameSystem {
 	public int getTurnNumber()
 	{
 		return turnNumber;
+	}
+
+	public int getDay()
+	{
+		return dayNumber;
 	}
 }
