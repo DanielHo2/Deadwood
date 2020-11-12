@@ -109,7 +109,7 @@ public class ParseXML{
       NodeList cards = root.getElementsByTagName("card");
 
       for(int i = 0; i < cards.getLength(); i++) {
-         ArrayList<Role> parts = parsePartsNode(cards.item(i));
+         ArrayList<Role> parts = parsePartsNode(cards.item(i), false);
          // (convert parts to an array)
          Role[] partsArray = new Role[parts.size()];
 
@@ -178,7 +178,7 @@ public class ParseXML{
          } else if(sub.getNodeName().equals("area")) {
             setArea = parseAreaNode(sub);
          } else if(sub.getNodeName().equals("parts")) {
-            setParts = parsePartsNode(sub);
+            setParts = parsePartsNode(sub, true);
          } else if(sub.getNodeName().equals("takes")) {
             setShotAreas = parseTakesNode(sub);
          }
@@ -234,7 +234,7 @@ public class ParseXML{
       return result;
    }
 
-   private static ArrayList<Role> parsePartsNode(Node n) 
+   private static ArrayList<Role> parsePartsNode(Node n, boolean isExtra) 
    {
       NodeList parts = n.getChildNodes();
       ArrayList<Role> result = new ArrayList<>();
@@ -262,7 +262,7 @@ public class ParseXML{
                }
             }
 
-            result.add( new Role(level, name, line, a, true) );
+            result.add( new Role(level, name, line, a, isExtra) );
          }
       }
 
