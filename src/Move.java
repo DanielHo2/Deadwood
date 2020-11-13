@@ -17,6 +17,9 @@ public class Move implements Action{
 	public String takeAction ()
 	{
 		actor.changeSet(to);
+		if(!actor.getSet().getScene().isFlipped()) {
+			actor.getSet().getScene().flip();
+		}
 		actor.setMoved(true);
 		
 		return ("Moved to: " + to.getName() +"\n");

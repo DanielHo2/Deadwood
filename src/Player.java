@@ -40,11 +40,6 @@ public class Player {
 		return location;
 	}
 
-	public Scene getScene()
-	{
-		return location.getScene();
-	}
-
 	public void setRank(int r)
 	{
 		rank = r;
@@ -115,11 +110,6 @@ public class Player {
 		location = newLocation;
 	}
 	
-	public void setName(String enteredName)
-	{
-		name = enteredName;
-	}
-	
 	public String getName()
 	{
 		return name;
@@ -133,37 +123,6 @@ public class Player {
 	public void leaveRole()
 	{
 		currentRole = null;
-	}
-	
-	//return list of main players on set with roles
-	public List<Player> getMainPlayersOnSet() 
-	{
-		Player[] players = game.getPlayerArr();
-		ArrayList<Player> onSetPlayers = new ArrayList<>();
-		
-		for(int i = 0; i < players.length; i++) {
-			if(players[i].getSet() == location && 
-			   players[i].getRole() != null &&
-			   players[i].getRole().isExtra()) {
-				onSetPlayers.add(players[i]);
-			}
-		}
-		return onSetPlayers;
-	}
-	
-	public List<Player> getExtraPlayersOnSet() 
-	{
-		Player[] players = game.getPlayerArr();
-		ArrayList<Player> onSetPlayers = new ArrayList<>();
-		
-		for(int i = 0; i < players.length; i++) {
-			if(players[i].getSet() == location && 
-			   players[i].getRole() != null &&
-			   players[i].getRole().isExtra() == false) {
-				onSetPlayers.add(players[i]);
-			}
-		}
-		return onSetPlayers;
 	}
 
 	public List<Action> availableActions() 

@@ -35,31 +35,36 @@ public class DeadwoodView {
 
         for(Set s : b.getSets()) {
             if(s.hasScene()) {
-                System.out.printf("Set #%d: %s is now filming %s with a budget of %d\n", 
+                if(s.getScene().isFlipped()) {
+                    System.out.printf("Set #%d: %s is now filming %s with a budget of %d\n", 
                                    setNumber, s.getName(), s.getScene().getName(), s.getScene().getBudget());
 
-                // main roles
-                System.out.println("Main roles:  ");
+                    // main roles
+                    System.out.println("Main roles:  ");
 
-                for(Role curr : s.getMainRoles()) {
-                    viewRole(curr);
-                }
+                    for(Role curr : s.getMainRoles()) {
+                        viewRole(curr);
+                    }
 
-                System.out.println();
+                    System.out.println();
 
-                // extra roles
-                System.out.println("Extra roles: ");
+                    // extra roles
+                    System.out.println("Extra roles: ");
 
-                for(Role curr : s.getExtraRoles()) {
-                    viewRole(curr);
-                }
+                    for(Role curr : s.getExtraRoles()) {
+                        viewRole(curr);
+                    }
 
-                System.out.println();
+                    System.out.println();
                 
-                // reamining shots
-                System.out.printf("Remaining shots: %d\n", s.getShotsLeft());
+                    // reamining shots
+                    System.out.printf("Remaining shots: %d\n", s.getShotsLeft());
+                } else {
+                    System.out.printf("Set #%d: %s is now filming an unknown scene\n", 
+                                   setNumber, s.getName());
+                }
             } else {
-                System.out.printf("Set #%d: %s\n", setNumber, s.getName());
+                System.out.printf("Set #%d: %s currently has no scene\n", setNumber, s.getName());
             }
 
             // neighbors

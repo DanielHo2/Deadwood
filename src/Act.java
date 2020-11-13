@@ -20,7 +20,7 @@ public class Act implements Action{
 		String payOutMessage = ""; 
 		
 		//successful roll
-		if(adjustedDieRoll >= actor.getScene().getBudget()) {
+		if(adjustedDieRoll >= actor.getSet().getScene().getBudget()) {
 			if(actor.getRole().isExtra() == false) { //on main role - give 2 credits
 				actor.addCredits(2);
 				returnMessage = 0;

@@ -75,11 +75,6 @@ public class GameSystem {
 		return board;
 	}
 	
-	public void updateCurrentPlayer (int newPlayerNum)
-	{
-		turnNumber = newPlayerNum;
-	}
-	
 	public void updateAvailableActions () 
 	{
 		actionList = players[turnNumber].availableActions();

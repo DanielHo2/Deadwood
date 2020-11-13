@@ -27,13 +27,13 @@ public class Deadwood {
 		view.viewScore();
     }
 
-    public String getInput()
+    private String getInput()
     {
         System.out.print("> ");
         return scan.nextLine();
 	}
 	
-	public List<String> getPlayers()
+	public List<String> setUpPlayers()
 	{
 		List<String> result = new ArrayList<>();
 
