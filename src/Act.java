@@ -56,11 +56,11 @@ public class Act implements Action{
 
 		switch (returnMessage) {
 			case 0:
-				return "Successful roll: +2 credits\n" + payOutMessage;
+				return "Successful roll: " + actor.getName() +  " gains 2 credits\n" + payOutMessage;
 			case 1:
-				return "Successful roll: +1 credit +1 dollar\n" + payOutMessage;
+				return "Successful roll:  " + actor.getName() +  " gains 1 credit 1 dollar\n" + payOutMessage;
 			case 2:
-				return "Failed roll: +1 credit\n";
+				return "Failed roll:  " + actor.getName() +  " gains 1 credit\n";
 			case 3:
 				return "Failed roll\n";
 			default:

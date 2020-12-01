@@ -31,8 +31,8 @@ public class Upgrade implements Action{
 
 		actor.setRank(rank);
 		if(useCredits == true) {
-			return ("You upgraded to rank " + rank + " for " + cost + " credits\n");
+			return (actor.getName() + " upgraded to rank " + rank + " for " + cost + " credits\n");
 		}
-		return ("You upgraded to rank " + rank + " for " + cost + "dollars\n");
+		return (actor.getName() + " upgraded to rank " + rank + " for " + cost + "dollars\n");
 	}
 }

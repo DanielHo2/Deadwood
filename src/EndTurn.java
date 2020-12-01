@@ -14,6 +14,6 @@ public class EndTurn implements Action {
     {
         actor.setMoved(false);
         actor.getGame().nextTurn();
-        return ("Turn Ended\n");
+        return (actor.getName() + " ended their turn.\n");
     }
 }

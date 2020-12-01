@@ -17,6 +17,6 @@ public class Rehearse implements Action{
 		actor.givePracticeTokens();
 
 		actor.getGame().nextTurn();
-		return ("You have rehearsed and now have: " + actor.getPracticeTokens() + " Practice Tokens\n");
+		return (actor.getName() + " has rehearsed and now has " + actor.getPracticeTokens() + " Practice Tokens\n");
 	}
 }
