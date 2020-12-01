@@ -57,4 +57,8 @@ public class Scene {
 	{
 		return roles;
 	}
+
+	public String getImage() {
+		return imageFile;
+	}
 }

@@ -207,4 +207,12 @@ public class Set {
 	{
 		return roles;
 	}
+
+	public Area getArea() {
+		return area;
+	}
+
+	public Area[] getTakeAreas() {
+		return takeAreas;
+	}
 }

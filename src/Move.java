@@ -18,10 +18,12 @@ public class Move implements Action{
 	{
 		String result = "Moved to: " + to.getName() + "\n";
 		actor.changeSet(to);
-		if(!actor.getSet().getScene().isFlipped()) {
+		
+		if(actor.getSet().hasScene() && !actor.getSet().getScene().isFlipped()) {
 			actor.getSet().getScene().flip();
 			result += "The scene in this Set has been revealed to be " + actor.getSet().getScene().getName() + "\n";
 		}
+		
 		actor.setMoved(true);
 
 		return result;

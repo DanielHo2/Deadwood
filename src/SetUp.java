@@ -34,7 +34,7 @@ public class SetUp {
 			}
 		
 			GameSystem gameSystem = new GameSystem(boardInUse, playerArr);
-			DeadwoodView view = new DeadwoodView(gameSystem);
+			DeadwoodGUI view = new DeadwoodGUI(gameSystem);
 
 			controller.setView(view);
 		} catch (Exception e) {

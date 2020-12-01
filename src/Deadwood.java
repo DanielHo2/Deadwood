@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Deadwood {
-	private DeadwoodView view;
+	private DeadwoodGUI view;
     private Scanner scan;
 
     public Deadwood() 
@@ -12,17 +12,16 @@ public class Deadwood {
 		scan = new Scanner(System.in);
 	}
 	
-	public void setView(DeadwoodView v)
+	public void setView(DeadwoodGUI v)
 	{
 		view = v;
 	}
 
     public void runGame()
     {
-        while(!view.gameFinished()){
-            view.viewActions();
-            view.input(getInput());
-		}
+		view.setVisible(true);
+    	
+        view.viewActions();
 		
 		view.viewScore();
     }
