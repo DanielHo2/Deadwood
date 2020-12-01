@@ -14,7 +14,7 @@ Then, to create a jar file, change to the bin/ directory...
 
 This jar file should then be moved to the parent directory.
 
-`mv Deadwod.jar ../`
+`mv Deadwood.jar ../`
 
 Then, after changing to this directory...
 
