@@ -357,6 +357,8 @@ public class DeadwoodGUI extends JFrame {
 		    resultString += (p.getName() + " has a score of " + score + "\n");
 		}
 		resultString += ("\nThe winner is " + winningPlayer.getName() + "!\n");
+		setVisible(false);
+		
 		JOptionPane.showMessageDialog(null, resultString);
 		
 		dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
