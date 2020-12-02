@@ -22,6 +22,13 @@ public class Deadwood {
     {
 		view.setVisible(true);
         view.viewActions();
+
+		// wait for the game to end - the JFrame seems to run in a different thread,
+		// so we can just have this thread wait until the game ends
+		while(!view.gameFinished()) {
+			// do nothing!
+		}
+        
 		view.viewScore();
     }
 

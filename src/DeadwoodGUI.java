@@ -363,7 +363,7 @@ public class DeadwoodGUI extends JFrame {
 	}
 
 	public boolean gameFinished() {
-		return false;
+		return game.gameFinished();
 	}
 
 	// listening to mouse events
