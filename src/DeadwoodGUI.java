@@ -261,6 +261,7 @@ public class DeadwoodGUI extends JFrame {
 				}
 
 				cards[i].setIcon(img);
+				cards[i].setVisible(true);
 			} else {
 				cards[i].setVisible(false);
 			}
@@ -341,7 +342,24 @@ public class DeadwoodGUI extends JFrame {
 	}
 
 	public void viewScore() {
+		int maxScore = 0;
+		Player winningPlayer = game.getPlayerArr()[0];
+		String resultString = "";
 		
+		for(Player p : game.getPlayerArr()) {
+			int score = p.getScore();
+		
+		    if(score > maxScore) {
+		    	winningPlayer = p;
+		        maxScore = score;
+		    }
+		
+		    resultString += (p.getName() + " has a score of " + score + "\n");
+		}
+		resultString += ("\nThe winner is " + winningPlayer.getName() + "!\n");
+		JOptionPane.showMessageDialog(null, resultString);
+		
+		dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 	}
 
 	public boolean gameFinished() {

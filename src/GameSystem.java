@@ -49,8 +49,13 @@ public class GameSystem {
 				p.changeSet(board.getTrailers());
 				// replace all shot counters
 				board.refillShotCounters();
-				// deal 10 more scenes to the board
-				board.dealScenes();
+			}
+
+			// deal 10 more scenes to the board
+			board.dealScenes();
+
+			for(Set s : board.getSets()) {
+				if(s.hasScene()) System.out.println(s.getScene().getName());
 			}
 
 			return true;

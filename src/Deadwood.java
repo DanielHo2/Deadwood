@@ -21,9 +21,7 @@ public class Deadwood {
     public void runGame()
     {
 		view.setVisible(true);
-    	
         view.viewActions();
-		
 		view.viewScore();
     }
 
