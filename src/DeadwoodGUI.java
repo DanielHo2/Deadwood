@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.border.*;
 import javax.swing.BorderFactory;
 import java.awt.event.*;
-import javax.swing.JOptionPane;
+
 import static javax.swing.ScrollPaneConstants.*;
 
 public class DeadwoodGUI extends JFrame {

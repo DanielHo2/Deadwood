@@ -2,6 +2,7 @@
 import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 public class Deadwood {
 	private DeadwoodGUI view;
@@ -36,19 +37,24 @@ public class Deadwood {
 	{
 		List<String> result = new ArrayList<>();
 
-		while(result.size() < 8) {
-			System.out.printf("Enter player #%d's name (enter a blank line to finish): ", result.size()+1);
+		String messagePrepend = "";
 
-			String next = scan.nextLine();
-			if(next.isBlank()) {
+		while(result.size() < 8) {
+			String next = JOptionPane.showInputDialog(messagePrepend + "Enter player #" + (result.size()+1) + "'s name.  Press cancel if there are no more players.");
+			
+			if(next == null) {
 				if(result.size() < 2) {
-					System.out.println("At least 2 players are needed.");
+					messagePrepend = "At least 2 players are needed.  ";
 					continue;
 				} else {
 					break;
 				}
+			} else if(next.isBlank()) {
+				messagePrepend = "Please enter a name.  ";
 			}
 
+			messagePrepend = "";
+			
 			result.add(next);
 		}
 
